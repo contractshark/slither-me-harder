@@ -1,0 +1,1 @@
+scripts/ci_test_simil.sh: line 13: slither-simil: command not found
