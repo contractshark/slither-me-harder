@@ -3,7 +3,9 @@
 
 FROM cimg/python:3.7.9
 
+SHELL ["/bin/bash", "-c"]
 
+# RUN 
 
 # Dockerfile will pull the latest LTS release from cimg-node.
 RUN curl -sSL "https://raw.githubusercontent.com/CircleCI-Public/cimg-node/master/ALIASES" -o nodeAliases.txt && \
@@ -19,3 +21,17 @@ RUN curl -L -o yarn.tar.gz "https://yarnpkg.com/downloads/${YARN_VERSION}/yarn-v
 	rm yarn.tar.gz && \
 	sudo ln -s /opt/yarn-v${YARN_VERSION}/bin/yarn /usr/local/bin/yarn && \
 	sudo ln -s /opt/yarn-v${YARN_VERSION}/bin/yarnpkg /usr/local/bin/yarnpkg
+
+RUN wget https://github.com/ethereum/solidity/releases/download/v0.5.17/solc-static-linux \
+ && chmod +x solc-static-linux \
+ && mv solc-static-linux /usr/bin/solc
+
+RUN useradd -m slither
+USER slither
+
+COPY --chown=slither:slither . /home/slither/slither
+WORKDIR /home/slither/slither
+
+RUN python3 setup.py install --user
+ENV PATH="/home/slither/.local/bin:${PATH}"
+CMD /bin/bash
