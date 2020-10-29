@@ -3,7 +3,8 @@
 .idea
 .git
 Dockerfile
-*.md
+# slither build from source checks for README so we leave this disabled
+# *.md
 logo.png
 .make-release-support
 build
