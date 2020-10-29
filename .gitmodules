@@ -1,0 +1,3 @@
+[submodule "slither"]
+	path = slither
+	url = https://github.com/crytic/slither
